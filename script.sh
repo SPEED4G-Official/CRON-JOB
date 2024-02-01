@@ -36,6 +36,7 @@ systemctl disable ${transid}
 cd /etc/systemd/system/
 rm -rf ${transid}.service
 systemctl daemon-reload
+cd ~
 else
     echo "Method Not Support!"
 fi
