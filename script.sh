@@ -2,6 +2,7 @@ transid="$1"
 second="$2"
 url="$3"
 method="$4"
+if [ "$method" == "add" ]; then
 cd /etc/systemd/system/
 cat >${transid}.service <<EOF
 [Unit]
@@ -25,3 +26,18 @@ RestartSec=10
 [Install]
 WantedBy=multi-user.target
 EOF
+cd ~
+systemctl daemon-reload
+systemctl start ${transid}
+systemctl enable ${transid}
+elif [ "$method" == "delete" ]; then
+systemctl stop ${transid}
+systemctl disable ${transid}
+cd /etc/systemd/system/
+rm -rf ${transid}.service
+systemctl daemon-reload
+else
+    echo "Method Not Support!"
+fi
+
+
